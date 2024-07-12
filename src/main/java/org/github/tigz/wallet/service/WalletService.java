@@ -18,6 +18,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing wallet operations.
+ * This class handles the business logic for wallet-related functionalities such as
+ * adding funds, withdrawing funds, retrieving transactions, and fetching wallet information.
+ */
 @Service
 public class WalletService {
 
@@ -25,6 +30,13 @@ public class WalletService {
     private final TransactionRepository transactionRepository;
     private final WalletConfig walletConfig;
 
+    /**
+     * Constructs a new WalletService with the specified repositories and configuration.
+     *
+     * @param walletRepository The repository for wallet data
+     * @param transactionRepository The repository for transaction data
+     * @param walletConfig The configuration for wallet operations
+     */
     @Autowired
     public WalletService(WalletRepository walletRepository, TransactionRepository transactionRepository, WalletConfig walletConfig) {
         this.walletRepository = walletRepository;
@@ -32,6 +44,14 @@ public class WalletService {
         this.walletConfig = walletConfig;
     }
 
+    /**
+     * Adds funds to a customer's wallet.
+     *
+     * @param customerId The ID of the customer
+     * @param amount The amount to add
+     * @return WalletDTO representing the updated wallet
+     * @throws IllegalArgumentException if the amount is outside the allowed range
+     */
     @Transactional
     public WalletDTO addFunds(String customerId, BigDecimal amount) {
         if (amount.compareTo(walletConfig.getMinAddAmount()) < 0 || amount.compareTo(walletConfig.getMaxAddAmount()) > 0) {
@@ -54,6 +74,16 @@ public class WalletService {
         return convertToDTO(wallet);
     }
 
+    /**
+     * Withdraws funds from a customer's wallet.
+     *
+     * @param customerId The ID of the customer
+     * @param amount The amount to withdraw
+     * @return WalletDTO representing the updated wallet
+     * @throws IllegalArgumentException if the amount is outside the allowed range
+     * @throws RuntimeException if the wallet is not found
+     * @throws IllegalStateException if there are insufficient funds
+     */
     @Transactional
     public WalletDTO withdrawFunds(String customerId, BigDecimal amount) {
         if (amount.compareTo(walletConfig.getMinWithdrawAmount()) < 0 || amount.compareTo(walletConfig.getMaxWithdrawAmount()) > 0) {
@@ -77,6 +107,14 @@ public class WalletService {
         return convertToDTO(wallet);
     }
 
+    /**
+     * Retrieves a paginated list of transactions for a customer's wallet.
+     *
+     * @param customerId The ID of the customer
+     * @param pageable The pagination information
+     * @return PageDTO containing TransactionDTO objects
+     * @throws RuntimeException if the wallet is not found
+     */
     public PageDTO<TransactionDTO> getTransactions(String customerId, Pageable pageable) {
         Wallet wallet = walletRepository.findByCustomerId(customerId)
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
@@ -95,16 +133,35 @@ public class WalletService {
         );
     }
 
+    /**
+     * Retrieves the wallet information for a specific customer.
+     *
+     * @param customerId The ID of the customer
+     * @return WalletDTO representing the customer's wallet
+     * @throws RuntimeException if the wallet is not found
+     */
     public WalletDTO getWallet(String customerId) {
         Wallet wallet = walletRepository.findByCustomerId(customerId)
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
         return convertToDTO(wallet);
     }
 
+    /**
+     * Converts a Wallet entity to a WalletDTO.
+     *
+     * @param wallet The Wallet entity to convert
+     * @return WalletDTO representing the wallet
+     */
     private WalletDTO convertToDTO(Wallet wallet) {
         return new WalletDTO(wallet.getCustomerId(), wallet.getBalance());
     }
 
+    /**
+     * Converts a Transaction entity to a TransactionDTO.
+     *
+     * @param transaction The Transaction entity to convert
+     * @return TransactionDTO representing the transaction
+     */
     private TransactionDTO convertToDTO(Transaction transaction) {
         return new TransactionDTO(
                 transaction.getId(),
