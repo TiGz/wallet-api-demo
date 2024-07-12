@@ -8,6 +8,8 @@ import org.github.tigz.wallet.model.Transaction;
 import org.github.tigz.wallet.model.Wallet;
 import org.github.tigz.wallet.repository.TransactionRepository;
 import org.github.tigz.wallet.repository.WalletRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class WalletService {
+
+    private static final Logger logger = LoggerFactory.getLogger(WalletService.class);
 
     private final WalletRepository walletRepository;
     private final TransactionRepository transactionRepository;
@@ -50,10 +54,16 @@ public class WalletService {
      * @param customerId The ID of the customer
      * @param amount The amount to add
      * @return WalletDTO representing the updated wallet
-     * @throws IllegalArgumentException if the amount is outside the allowed range
+     * @throws IllegalArgumentException if the amount is null or outside the allowed range
      */
     @Transactional
     public WalletDTO addFunds(String customerId, BigDecimal amount) {
+        logger.debug("Attempting to add funds: customerId={}, amount={}", customerId, amount);
+
+        if (amount == null) {
+            throw new IllegalArgumentException("Amount cannot be null");
+        }
+
         if (amount.compareTo(walletConfig.getMinAddAmount()) < 0 || amount.compareTo(walletConfig.getMaxAddAmount()) > 0) {
             throw new IllegalArgumentException(String.format("Amount must be between £%s and £%s",
                     walletConfig.getMinAddAmount(), walletConfig.getMaxAddAmount()));
@@ -62,6 +72,7 @@ public class WalletService {
         Wallet wallet = walletRepository.findByCustomerId(customerId)
                 .orElseGet(() -> {
                     Wallet newWallet = new Wallet(customerId, BigDecimal.ZERO);
+                    logger.info("Creating new wallet for customer: {}", customerId);
                     return walletRepository.save(newWallet);
                 });
 
@@ -71,6 +82,7 @@ public class WalletService {
         Transaction transaction = new Transaction(wallet, amount, Transaction.TransactionType.CREDIT);
         transactionRepository.save(transaction);
 
+        logger.info("Funds added successfully: customerId={}, amount={}, newBalance={}", customerId, amount, wallet.getBalance());
         return convertToDTO(wallet);
     }
 
@@ -80,22 +92,28 @@ public class WalletService {
      * @param customerId The ID of the customer
      * @param amount The amount to withdraw
      * @return WalletDTO representing the updated wallet
-     * @throws IllegalArgumentException if the amount is outside the allowed range
+     * @throws IllegalArgumentException if the amount is null or outside the allowed range
      * @throws RuntimeException if the wallet is not found
      * @throws IllegalStateException if there are insufficient funds
      */
     @Transactional
     public WalletDTO withdrawFunds(String customerId, BigDecimal amount) {
+        logger.debug("Attempting to withdraw funds: customerId={}, amount={}", customerId, amount);
+
+        if (amount == null) {
+            throw new IllegalArgumentException("Amount cannot be null");
+        }
+
         if (amount.compareTo(walletConfig.getMinWithdrawAmount()) < 0 || amount.compareTo(walletConfig.getMaxWithdrawAmount()) > 0) {
             throw new IllegalArgumentException(String.format("Amount must be between £%s and £%s",
                     walletConfig.getMinWithdrawAmount(), walletConfig.getMaxWithdrawAmount()));
         }
 
         Wallet wallet = walletRepository.findByCustomerId(customerId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+                .orElseThrow(() -> new RuntimeException("Wallet not found for customer: " + customerId));
 
         if (wallet.getBalance().compareTo(amount) < 0) {
-            throw new IllegalStateException("Insufficient funds");
+            throw new IllegalStateException("Insufficient funds for withdrawal");
         }
 
         wallet.setBalance(wallet.getBalance().subtract(amount));
@@ -104,6 +122,7 @@ public class WalletService {
         Transaction transaction = new Transaction(wallet, amount, Transaction.TransactionType.DEBIT);
         transactionRepository.save(transaction);
 
+        logger.info("Funds withdrawn successfully: customerId={}, amount={}, newBalance={}", customerId, amount, wallet.getBalance());
         return convertToDTO(wallet);
     }
 
@@ -116,8 +135,10 @@ public class WalletService {
      * @throws RuntimeException if the wallet is not found
      */
     public PageDTO<TransactionDTO> getTransactions(String customerId, Pageable pageable) {
+        logger.debug("Retrieving transactions: customerId={}, page={}, size={}", customerId, pageable.getPageNumber(), pageable.getPageSize());
+
         Wallet wallet = walletRepository.findByCustomerId(customerId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+                .orElseThrow(() -> new RuntimeException("Wallet not found for customer: " + customerId));
 
         Page<Transaction> transactionPage = transactionRepository.findByWallet(wallet, pageable);
         List<TransactionDTO> transactionDTOs = transactionPage.getContent().stream()
@@ -141,8 +162,10 @@ public class WalletService {
      * @throws RuntimeException if the wallet is not found
      */
     public WalletDTO getWallet(String customerId) {
+        logger.debug("Retrieving wallet: customerId={}", customerId);
+
         Wallet wallet = walletRepository.findByCustomerId(customerId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+                .orElseThrow(() -> new RuntimeException("Wallet not found for customer: " + customerId));
         return convertToDTO(wallet);
     }
 
