@@ -1,9 +1,9 @@
-package org.github.tigz.wallet.controller;
+package org.github.tigz.wallet.modules.wallet.controller;
 
-import org.github.tigz.wallet.dto.PageDTO;
-import org.github.tigz.wallet.dto.TransactionDTO;
-import org.github.tigz.wallet.dto.WalletDTO;
-import org.github.tigz.wallet.service.RetryableWalletService;
+import org.github.tigz.wallet.modules.wallet.dto.PageDTO;
+import org.github.tigz.wallet.modules.wallet.dto.TransactionDTO;
+import org.github.tigz.wallet.modules.wallet.dto.WalletDTO;
+import org.github.tigz.wallet.modules.wallet.service.RetryableWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

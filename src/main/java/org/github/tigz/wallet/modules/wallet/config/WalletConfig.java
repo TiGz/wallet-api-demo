@@ -1,4 +1,4 @@
-package org.github.tigz.wallet.config;
+package org.github.tigz.wallet.modules.wallet.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

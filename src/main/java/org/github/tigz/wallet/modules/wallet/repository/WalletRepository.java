@@ -1,6 +1,6 @@
-package org.github.tigz.wallet.repository;
+package org.github.tigz.wallet.modules.wallet.repository;
 
-import org.github.tigz.wallet.model.Wallet;
+import org.github.tigz.wallet.modules.wallet.model.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package org.github.tigz.wallet.model;
+package org.github.tigz.wallet.modules.wallet.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

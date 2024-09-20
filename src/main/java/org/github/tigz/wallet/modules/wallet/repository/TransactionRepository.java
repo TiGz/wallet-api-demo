@@ -1,7 +1,7 @@
-package org.github.tigz.wallet.repository;
+package org.github.tigz.wallet.modules.wallet.repository;
 
-import org.github.tigz.wallet.model.Transaction;
-import org.github.tigz.wallet.model.Wallet;
+import org.github.tigz.wallet.modules.wallet.model.Transaction;
+import org.github.tigz.wallet.modules.wallet.model.Wallet;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
