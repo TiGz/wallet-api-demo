@@ -50,6 +50,12 @@
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 	</dependencies>
+		<!-- Add Flyway dependency -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
