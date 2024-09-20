@@ -1,8 +1,8 @@
 package org.github.tigz.wallet;
 
-import org.github.tigz.wallet.dto.PageDTO;
-import org.github.tigz.wallet.dto.TransactionDTO;
-import org.github.tigz.wallet.dto.WalletDTO;
+import org.github.tigz.wallet.modules.wallet.dto.PageDTO;
+import org.github.tigz.wallet.modules.wallet.dto.TransactionDTO;
+import org.github.tigz.wallet.modules.wallet.dto.WalletDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

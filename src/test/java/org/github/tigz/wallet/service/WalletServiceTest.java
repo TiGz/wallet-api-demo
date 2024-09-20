@@ -1,13 +1,13 @@
-package org.github.tigz.wallet.service;
+package org.github.tigz.wallet.modules.wallet.service;
 
-import org.github.tigz.wallet.config.WalletConfig;
-import org.github.tigz.wallet.dto.PageDTO;
-import org.github.tigz.wallet.dto.TransactionDTO;
-import org.github.tigz.wallet.dto.WalletDTO;
-import org.github.tigz.wallet.model.Transaction;
-import org.github.tigz.wallet.model.Wallet;
-import org.github.tigz.wallet.repository.TransactionRepository;
-import org.github.tigz.wallet.repository.WalletRepository;
+import org.github.tigz.wallet.modules.wallet.config.WalletConfig;
+import org.github.tigz.wallet.modules.wallet.dto.PageDTO;
+import org.github.tigz.wallet.modules.wallet.dto.TransactionDTO;
+import org.github.tigz.wallet.modules.wallet.dto.WalletDTO;
+import org.github.tigz.wallet.modules.wallet.model.Transaction;
+import org.github.tigz.wallet.modules.wallet.model.Wallet;
+import org.github.tigz.wallet.modules.wallet.repository.TransactionRepository;
+import org.github.tigz.wallet.modules.wallet.repository.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

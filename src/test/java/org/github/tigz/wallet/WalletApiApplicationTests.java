@@ -1,6 +1,6 @@
 package org.github.tigz.wallet;
 
-import org.github.tigz.wallet.dto.WalletDTO;
+import org.github.tigz.wallet.modules.wallet.dto.WalletDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
