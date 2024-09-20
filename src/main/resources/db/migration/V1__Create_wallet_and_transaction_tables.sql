@@ -1,6 +1,8 @@
-CREATE TABLE wallet (
+CREATE TABLE wallets (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    balance DECIMAL(19, 2) NOT NULL
+    customer_id VARCHAR(255) NOT NULL UNIQUE,
+    balance DECIMAL(19, 2) NOT NULL,
+    version BIGINT NOT NULL
 );
 
 CREATE TABLE transaction (
@@ -9,8 +11,5 @@ CREATE TABLE transaction (
     amount DECIMAL(19, 2) NOT NULL,
     type VARCHAR(20) NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    FOREIGN KEY (wallet_id) REFERENCES wallet(id)
+    FOREIGN KEY (wallet_id) REFERENCES wallets(id)
 );
-
-CREATE INDEX idx_wallet_id ON transaction(wallet_id);
-CREATE INDEX idx_created_at ON transaction(created_at);

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * This class is mapped to the "transactions" table in the database.
  */
 @Entity
-@Table(name = "transactions")
+@Table(name = "transaction")
 public class Transaction {
 
     @Id
@@ -27,7 +27,7 @@ public class Transaction {
     @Column(nullable = false)
     private TransactionType type;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime timestamp;
 
     /**
