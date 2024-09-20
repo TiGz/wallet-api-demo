@@ -1,6 +1,6 @@
-package org.github.tigz.wallet;
+package org.github.tigz.wallet.modules.wallet;
 
-import org.github.tigz.wallet.modules.wallet.dto.PageDTO;
+import org.github.tigz.wallet.common.dto.PageDTO;
 import org.github.tigz.wallet.modules.wallet.dto.TransactionDTO;
 import org.github.tigz.wallet.modules.wallet.dto.WalletDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

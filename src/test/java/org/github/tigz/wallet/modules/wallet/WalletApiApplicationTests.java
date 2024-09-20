@@ -1,4 +1,4 @@
-package org.github.tigz.wallet;
+package org.github.tigz.wallet.modules.wallet;
 
 import org.github.tigz.wallet.modules.wallet.dto.WalletDTO;
 import org.junit.jupiter.api.Assertions;
