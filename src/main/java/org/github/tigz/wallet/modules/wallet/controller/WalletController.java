@@ -1,6 +1,6 @@
 package org.github.tigz.wallet.modules.wallet.controller;
 
-import org.github.tigz.wallet.modules.wallet.dto.PageDTO;
+import org.github.tigz.wallet.common.dto.PageDTO;
 import org.github.tigz.wallet.modules.wallet.dto.TransactionDTO;
 import org.github.tigz.wallet.modules.wallet.dto.WalletDTO;
 import org.github.tigz.wallet.modules.wallet.service.RetryableWalletService;

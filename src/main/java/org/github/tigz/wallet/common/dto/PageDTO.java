@@ -1,4 +1,4 @@
-package org.github.tigz.wallet.modules.wallet.dto;
+package org.github.tigz.wallet.common.dto;
 
 import java.util.List;
 

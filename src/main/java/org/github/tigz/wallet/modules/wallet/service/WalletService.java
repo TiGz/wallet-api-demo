@@ -1,7 +1,7 @@
 package org.github.tigz.wallet.modules.wallet.service;
 
 import org.github.tigz.wallet.modules.wallet.config.WalletConfig;
-import org.github.tigz.wallet.modules.wallet.dto.PageDTO;
+import org.github.tigz.wallet.common.dto.PageDTO;
 import org.github.tigz.wallet.modules.wallet.dto.TransactionDTO;
 import org.github.tigz.wallet.modules.wallet.dto.WalletDTO;
 import org.github.tigz.wallet.modules.wallet.model.Transaction;
